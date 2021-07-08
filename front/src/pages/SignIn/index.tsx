@@ -110,6 +110,7 @@ const SignIn: React.FC = () => {
       <aside>tem interesse em participar da formação?</aside>
       <a href="https://www.redeabrigo.org/faca-parte/" target="_blank">Faça Parte</a>
       <a href="https://www.redeabrigo.org/" target="_blank">Sobre a Rede Abrigo</a>
+      <Link to="cadastro">Cadastre-se</Link>
     </Container>
   );
 }
