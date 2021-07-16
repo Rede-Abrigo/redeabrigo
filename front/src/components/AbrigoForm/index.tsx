@@ -190,6 +190,26 @@ const AbrigoForm: React.FC<IAbrigoFormProps> = ({ id, headingText }) => {
     });
     try {
       setIsLoading(true);
+
+      if (!formRef.current) {
+        throw new Error('formRef invalid');
+      }
+      formRef.current.setErrors({});
+      const schema = Yup.object().shape({
+        nome: Yup.string().required('O nome é obrigatório'),
+        telefone1: Yup.string().required('O telefone é obrigatório'),
+        email1: Yup.string().required('E-mail é obrigatório').email('Use um e-mail válido'),
+        endereco: Yup.string().required('O endereço é obrigatório'),
+        bairro: Yup.string().required('O bairro é obrigatório'),
+        cidade: Yup.string().required('A cidade é obrigatória'),
+        estado: Yup.string().required('O estado é obrigatório'),
+        capacidade: Yup.number().required('A capacidade é obrigatória')
+      });
+
+      await schema.validate(formData, {
+        abortEarly: false
+      });
+
       if (abrigoQl) {
         AtualizarAbrigo({
           variables: {
@@ -220,11 +240,12 @@ const AbrigoForm: React.FC<IAbrigoFormProps> = ({ id, headingText }) => {
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
-      addToast({
-        type: 'error',
-        title: 'Erro ao cadastrar!',
-        message: 'tente novamente ou entre em contato com suporte.',
-      });
+      const errors = getValidationErrors(err);
+      if (!formRef.current) {
+        throw new Error('formRef invalid');
+      }
+      formRef.current.setErrors(errors);
+      setIsLoading(false);
     }
   }, [abrigoQl]);
 
@@ -319,12 +340,12 @@ const AbrigoForm: React.FC<IAbrigoFormProps> = ({ id, headingText }) => {
 
           <div className="half-width">
             <label>Telefone 1</label>
-            <Input name="telefone1" className="alt" />
+            <Input name="telefone1" className="alt" maxlength={13} />
           </div>
 
           <div className="half-width">
             <label>Telefone 2</label>
-            <Input name="telefone2" className="alt" />
+            <Input name="telefone2" className="alt" maxlength={13} />
           </div>
 
           <div className="half-width">

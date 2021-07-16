@@ -122,6 +122,10 @@ export const Content = styled.div`
     &.full-width{
       width: 100%;
     }
+
+    svg{
+      stroke: red;
+    }
   }
 
   div + div{
@@ -168,7 +172,7 @@ export const AbrigoUser = styled.aside`
     }
 
     svg{
-      stroke: #dd4c37;
+      stroke: red;
     }
   }
 `;
