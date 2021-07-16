@@ -11,7 +11,7 @@ import Tabs from '../../components/Tabs';
 import Search from '../../components/Search';
 import CursoForm from '../../components/CursoForm';
 
-import { Container, Content, Estatisticas, CursoList, Curso, Warning } from './styles';
+import { Container, Content, Estatisticas, CursoList, Curso, Warning, NoCurso } from './styles';
 
 interface IVerCursos {
   verCursos: {
@@ -80,6 +80,12 @@ const Cursos: React.FC = () => {
                 </Link>
               </Curso>
             ))}
+
+          {cursosData && cursosData.verCursos.length === 0 && (
+            <NoCurso>
+              Nenhum curso foi encontrado.
+            </NoCurso>
+          )}
 
           </CursoList>
         </>

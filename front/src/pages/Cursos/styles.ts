@@ -6,6 +6,10 @@ export const Container = styled.div`
   ${DefaultContainer}
 `;
 
+export const NoCurso = styled.div`
+  ${DefaultBackground}
+`;
+
 export const Estatisticas = styled.div`
   width: 90%;
   max-width: 500px;
