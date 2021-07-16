@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 
 export const GET_PERGUNTA_BY_ID = gql`
-query getPerguntaById($id: String!){
+query getPerguntaById($id: Float!){
   verForumPergunta(id: $id){
     pergunta{
       id,
@@ -20,7 +20,7 @@ query getPerguntaById($id: String!){
 }`;
 
 export const DELETE_PERGUNTA_BY_ID = gql`
-mutation deletarPerguntaById($id: String!){
+mutation deletarPerguntaById($id: Float!){
   deletarForumPergunta(id: $id)
 }`;
 
@@ -38,6 +38,6 @@ mutation createResposta($corpo: String!, $perguntaId: Float!){
 }`;
 
 export const DELETE_RESPOSTA_BY_ID = gql`
-mutation deletarResposta($id: String!){
+mutation deletarResposta($id: Float!){
   deletarForumResposta(id: $id)
 }`;
