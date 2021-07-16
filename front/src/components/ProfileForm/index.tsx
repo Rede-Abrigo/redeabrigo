@@ -10,7 +10,6 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, Content } from './styles';
 import Input from '../../components/Input';
-// import InputMasked from '../../components/InputMasked';
 import Button from '../../components/Button';
 import DatePicker from '../Datepicker';
 import Popup from '../Popup';
@@ -236,8 +235,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({ inheritedUser, headingText, 
 
           <div className="half-width">
             <label>telefone</label>
-            {/* <InputMasked mask="(99) 99999-9999" className="alt" name="telefone1" /> */}
-            <Input className="alt" name="telefone1" type="number" />
+            <Input className="alt" name="telefone1" maxlength={13} />
           </div>
 
           <div className="half-width">
