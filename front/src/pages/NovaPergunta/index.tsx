@@ -83,7 +83,7 @@ const NovaPergunta: React.FC = () => {
       <ContentContainer>
         <h2>Nova Pergunta</h2>
         <Form ref={formRef} onSubmit={handleSubmitPergunta}>
-          <Input name="titulo" placeholder="Título da pergunta" />
+          <Input name="titulo" placeholder="Título da pergunta" className="adjustTooltip" />
           <Textarea name="corpo"></Textarea>
 
           <Button type="submit" loading={isLoading}>enviar pergunta</Button>

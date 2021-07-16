@@ -66,7 +66,6 @@ const Forum: React.FC = () => {
     }
   }
 
-  console.log(parsedPerguntas);
   useEffect(() => {
     handleSetPerguntas();
   }, [perguntas]);
@@ -110,7 +109,7 @@ const Forum: React.FC = () => {
             </Pergunta>
           ))}
 
-          {parsedPerguntas && (
+          {parsedPerguntas && parsedPerguntas.length === 0 && (
             <NoPergunta>
               Nenhuma pergunta foi encontrada.
             </NoPergunta>

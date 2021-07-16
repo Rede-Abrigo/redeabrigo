@@ -56,7 +56,7 @@ const Pergunta: React.FC = () => {
   const { addToast } = useToast();
 
   const [getPergunta, { data: perguntaQl }] = useLazyQuery<IVerPerguntaQuery>(GET_PERGUNTA_BY_ID, {
-    variables: { id: id },
+    variables: { id: parseFloat(id) },
     fetchPolicy: "no-cache",
     onCompleted(data) {
       const date = new Date(Number(data.verForumPergunta.pergunta.createdAt));
@@ -139,7 +139,7 @@ const Pergunta: React.FC = () => {
   const handleDeleteResposta = (respostaId: string) => {
     deletarResposta({
       variables: {
-        id: respostaId
+        id: parseFloat(respostaId)
       }
     });
     setIsPopupOpen(false);
@@ -148,9 +148,14 @@ const Pergunta: React.FC = () => {
   const handleDeletePergunta = (perguntaId: number) => {
     deletarPerguntaById({
       variables: {
-        id: perguntaId
+        id: parseFloat(perguntaId.toString())
       }
     });
+  }
+
+  const parseDate = (date: string) => {
+    const parsedDate = new Date(Number(date));
+    return `${parsedDate.getDate()}/${parsedDate.getMonth() + 1}`;
   }
 
   useEffect(() => {
@@ -179,7 +184,7 @@ const Pergunta: React.FC = () => {
           {perguntaQl.verForumPergunta.pergunta.respostas && perguntaQl.verForumPergunta.pergunta.respostas.length > 0 && <h2>Respostas</h2>}
           {perguntaQl.verForumPergunta.pergunta.respostas && perguntaQl.verForumPergunta.pergunta.respostas.map(resposta => (
             <div key={resposta.id}>
-              <h3>Feita no dia {resposta.createdAt}:</h3>
+              <h3>Feita no dia {parseDate(resposta.createdAt)}:</h3>
               <Content key={resposta.id}>
                 {resposta.corpo}
                 <>

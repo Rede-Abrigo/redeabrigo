@@ -178,7 +178,6 @@ const CursoDetails: React.FC = () => {
   }, [modulosData]);
 
   useEffect(() => {
-    console.log(cursoData)
     if (cursoData) {
       const currentSubscription = localStorage.getItem(`inscricao-curso-${cursoData.verCurso.curso.id}`);
       
