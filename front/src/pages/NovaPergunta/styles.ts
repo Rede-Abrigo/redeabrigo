@@ -39,5 +39,10 @@ export const ContentContainer = styled.div`
     svg{
       stroke: #dd4c37;
     }
+
+    .adjustTooltip > div{
+      top: 16px;
+      right: 13px;
+    }
   }
 `;
