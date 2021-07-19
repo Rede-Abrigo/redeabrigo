@@ -85,6 +85,12 @@ import { ForumCategoriaResolver } from "@modules/forums/infra/http/resolvers/cat
     return response.json({ message: 'go to /api' });
   });
 
+  app.get('/download', (request, response) => {
+    const filename = request.query.filename;
+    const filepath = '/tmp';
+    response.download(`${filepath}/${filename}`);
+  });
+
   app.listen(process.env.PORT || 2000, () => {
     console.log('Server started on port 2000');
   });
