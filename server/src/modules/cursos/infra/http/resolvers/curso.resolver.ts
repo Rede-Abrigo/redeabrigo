@@ -7,6 +7,10 @@ import CursosRepository from "../../typeorm/repositories/CursosRepository";
 import { getCustomRepository } from "typeorm";
 import { container } from "tsyringe";
 
+import ExcelJS from 'exceljs';
+import TemporaryFiles from 'tmp';
+import path from 'path';
+
 // Preciso usar o DTO
 @InputType()
 class CriarCursoInput {
@@ -84,5 +88,27 @@ export class CursoResolver {
         const cursos = await cursosRepository.findAll();
         return cursos;
 
+    }
+
+    @Query(() => String)
+    async exportarCursos() : Promise<string> {
+        const cursosRepository = getCustomRepository(CursosRepository);
+        const cursos = await cursosRepository.findAll();
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Abrigos');
+        worksheet.columns = [
+            { header: 'ID', key: 'id' },
+            { header: 'Nome', key: 'nome' },
+            { header: 'Descrição', key: 'descricao' }
+        ];
+
+        worksheet.addRows(cursos);
+        const file = TemporaryFiles.fileSync({postfix: '.xlsx'});
+        await workbook.xlsx.writeFile(file.name);
+        const filename = path.basename(file.name);
+        const url = `/download?filename=${filename}`;
+
+        return url;
     }
 }

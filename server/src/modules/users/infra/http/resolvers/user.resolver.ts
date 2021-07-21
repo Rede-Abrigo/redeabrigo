@@ -17,6 +17,10 @@ import MailerTransporter from "@config/mailer";
 import RecoveryUserService from "@modules/users/services/RecoveryUserService";
 import LoginUserService from "@modules/users/services/LoginUserService";
 
+import ExcelJS from 'exceljs';
+import TemporaryFiles from 'tmp';
+import path from 'path';
+
 // Não identifiquei um similar desse user response
 @ObjectType()
 class UserResponse {  
@@ -179,4 +183,32 @@ export class UserResolver {
         return { user };
     }
     
+
+    @Query(() => String)
+    async exportarUsuarios() : Promise<string> {
+        const usersRepository = getCustomRepository(UsersRepository);
+        const users = await usersRepository.findAll();
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Abrigos');
+        worksheet.columns = [
+            { header: 'ID', key: 'id' },
+            { header: 'Nome', key: 'nome' },
+            { header: 'Credencial', key: 'credencial' },
+            { header: 'Email', key: 'email' },
+            { header: 'Email alternativo', key: 'emailAlternativo' },
+            { header: 'Nascimento', key: 'nascimento' },
+            { header: 'Telefone 1', key: 'telefone1' },
+            { header: 'Telefone 2', key: 'telefone2' },
+            { header: 'Profissão', key: 'profissao' }
+        ];
+
+        worksheet.addRows(users);
+        const file = TemporaryFiles.fileSync({postfix: '.xlsx'});
+        await workbook.xlsx.writeFile(file.name);
+        const filename = path.basename(file.name);
+        const url = `/download?filename=${filename}`;
+
+        return url;
+    }
 }
