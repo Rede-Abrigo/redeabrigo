@@ -119,7 +119,7 @@ export class AbrigoResolver {
         const file = TemporaryFiles.fileSync({postfix: '.xlsx'});
         await workbook.xlsx.writeFile(file.name);
         const filename = path.basename(file.name);
-        const url = `/download/${filename}`;
+        const url = `/download?filename=${filename}`;
 
         return url;
     }
