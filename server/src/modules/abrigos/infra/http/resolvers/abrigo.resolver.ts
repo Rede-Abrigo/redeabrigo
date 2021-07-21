@@ -6,7 +6,6 @@ import Abrigo from '../../typeorm/entities/Abrigo';
 import CreateAbrigoService from '../../../services/CreateAbrigoService';
 import UpdateAbrigoService from '../../../services/UpdateAbrigoService';
 import DeleteAbrigoService from "@modules/abrigos/services/DeleteAbrigoService";
-import FindAllAbrigosService from "@modules/abrigos/services/FindAllAbrigosService";
 
 import { CriarAbrigoInput } from "./CreateAbrigoInput";
 import { AtualizarAbrigoInput } from "./UpdateAbrigoInput";
@@ -14,6 +13,9 @@ import { AtualizarAbrigoInput } from "./UpdateAbrigoInput";
 import AbrigosRepository from "../../typeorm/repositories/AbrigosRepository";
 import { getCustomRepository } from "typeorm";
 
+import ExcelJS from 'exceljs';
+import TemporaryFiles from 'tmp';
+import path from 'path';
 
 @ObjectType()
 class AbrigoResponse {
@@ -84,5 +86,41 @@ export class AbrigoResolver {
         const abrigos = await abrigosRepository.findAll();
         return abrigos;
 
+    }
+
+    @Query(() => String)
+    async exportarAbrigos() : Promise<string> {
+        const abrigosRepository = getCustomRepository(AbrigosRepository);
+        const abrigos = await abrigosRepository.findAll();
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Abrigos');
+        worksheet.columns = [
+            { header: 'ID', key: 'id' },
+            { header: 'Nome', key: 'nome' },
+            { header: 'Telefone 1', key: 'telefone1' },
+            { header: 'Telefone 2', key: 'telefone2' },
+            { header: 'Email 1', key: 'email1' },
+            { header: 'Email 2', key: 'email2' },
+            { header: 'Endereço', key: 'endereco' },
+            { header: 'Bairro', key: 'bairro' },
+            { header: 'Estado', key: 'estado' },
+            { header: 'Cidade', key: 'cidade' },
+            { header: 'Classificação', key: 'classificacao' },
+            { header: 'Capacidade', key: 'capacidade' },
+            { header: 'Faixa etária', key: 'faixaEtaria' },
+            { header: 'LGBT', key: 'lgbt' },
+            { header: 'Gênero', key: 'genero' },
+            { header: 'PCD', key: 'pcd' },
+            { header: 'Observação', key: 'observacao' },
+        ]
+
+        worksheet.addRows(abrigos);
+        const file = TemporaryFiles.fileSync({postfix: '.xlsx'});
+        await workbook.xlsx.writeFile(file.name);
+        const filename = path.basename(file.name);
+        const url = `/download?filename=${filename}`;
+
+        return url;
     }
 }
