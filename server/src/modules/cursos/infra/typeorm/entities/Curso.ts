@@ -21,6 +21,10 @@ class Curso {
     @OneToMany(() => Modulo, modulo => modulo.curso)
     modulos?: Modulo[];
     
+    @Field()
+    @Column()
+    finalizado?: Boolean;
+
     @Field(() => String)
     @CreateDateColumn()
     createdAt: Date;
