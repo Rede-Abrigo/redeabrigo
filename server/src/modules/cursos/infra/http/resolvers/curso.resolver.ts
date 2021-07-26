@@ -28,6 +28,8 @@ class AtualizarCursoInput {
     nome?: string;
     @Field({ nullable: true })
     descricao?: string;
+    @Field({ nullable: true })
+    finalizado?: boolean;
 }
 
 @ObjectType()
