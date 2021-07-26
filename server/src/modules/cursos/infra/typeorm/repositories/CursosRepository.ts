@@ -41,9 +41,9 @@ class CursosRepository implements ICursosRepository {
 
   }
 
-  public async update(cursoId: number, { nome, descricao }: IUpdateCursoDTO): Promise<Curso | undefined> {
+  public async update(cursoId: number, { nome, descricao, finalizado }: IUpdateCursoDTO): Promise<Curso | undefined> {
 
-    await this.ormRepository.update(cursoId, { id: cursoId, nome, descricao });
+    await this.ormRepository.update(cursoId, { id: cursoId, nome, descricao, finalizado });
     const curso = await this.ormRepository.findOne({ where: { id: cursoId }, relations: ["modulos"] });
     return curso;
 

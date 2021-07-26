@@ -6,6 +6,7 @@ interface Request {
     cursoId: number;
     nome?: string;
     descricao?: string;
+    finalizado?: boolean;
 }
 
 @injectable()
@@ -15,7 +16,7 @@ class UpdateCursoService {
         private cursosRepository: ICursosRepository,
     ) { }
 
-    public async execute({ cursoId, nome, descricao }: Request): Promise<Curso | undefined> {
+    public async execute({ cursoId, nome, descricao, finalizado }: Request): Promise<Curso | undefined> {
 
         const curso = await this.cursosRepository.findById(cursoId);
         
@@ -24,7 +25,7 @@ class UpdateCursoService {
             if (!descricao) descricao = curso.descricao;
         }
 
-        return this.cursosRepository.update( cursoId, { nome, descricao });
+        return this.cursosRepository.update( cursoId, { nome, descricao, finalizado });
     
     }
 }
