@@ -35,3 +35,21 @@ query{
   }
 }
 `;
+
+export const DOWNLOAD_CURSOS = gql`
+  query {
+    exportarCursos
+  }
+`;
+
+export const DOWNLOAD_ABRIGOS = gql`
+  query {
+    exportarAbrigos
+  }
+`;
+
+export const DOWNLOAD_USUARIOS = gql`
+  query {
+    exportarUsuarios
+  }
+`;

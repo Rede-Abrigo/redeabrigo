@@ -216,3 +216,23 @@ export const NotificationContainer = styled.div<INotificationProps>`
     }
   `}
 `;
+
+export const AdminNotices = styled.div`
+  ${DefaultBackground}
+  p{
+    margin-top:0;
+  }
+
+  div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button{
+    width: 30%;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+  }
+`;
