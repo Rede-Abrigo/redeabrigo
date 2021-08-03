@@ -128,7 +128,6 @@ const ProfileForm: React.FC<IProfileFormProps> = ({ inheritedUser, headingText, 
         nome: Yup.string().required('O nome é obrigatório'),
         email: Yup.string().required('E-mail é obrigatório').email('Use um e-mail válido'),
         emailAlternativo: Yup.string().email('Use um email válido'),
-        password: Yup.string().required('a senha é obrigatoria'),
         cargo: Yup.string().required('O cargo é obrigatório'),
         profissao: Yup.string().required('A profissão é obrigatória'),
         abrigoId: Yup.string(),
@@ -259,7 +258,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({ inheritedUser, headingText, 
             </div>
           )}
 
-          {user && (
+          {/* {user && (
             <>
               <div className="half-width">
                 <label>senha antiga</label>
@@ -271,7 +270,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({ inheritedUser, headingText, 
                 <Input className="alt" name="password" type="password" />
               </div>
             </>
-          )}
+          )} */}
 
           {!user && (
             <div className="half-width">
