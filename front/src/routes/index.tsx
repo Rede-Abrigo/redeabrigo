@@ -5,6 +5,7 @@ import Route from './route';
 
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import PasswordRecovery from '../pages/PasswordRecovery';
 import Dashboard from '../pages/Dashboard';
 import Profissionais from '../pages/Profissionais';
 import Abrigos from '../pages/Abrigos';
@@ -28,6 +29,7 @@ const Routes: React.FC = () => {
     <Switch>
       <Route path="/" exact component={SignIn} />
       <Route path="/cadastro" exact component={SignUp} />
+      <Route path="/recuperacao" exact component={PasswordRecovery} />
 
       <Route path="/dashboard" component={Dashboard} isPrivate />
 
