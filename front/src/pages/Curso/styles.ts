@@ -13,6 +13,10 @@ export const Container = styled.div`
     align-items: center;
     justify-content: flex-start;
   }
+
+  section{
+    align-items: flex-start;
+  }
 `;
 
 export const CursoContent = styled.div`

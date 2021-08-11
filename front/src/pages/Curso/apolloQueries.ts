@@ -7,9 +7,27 @@ query VerCurso($id: Float!){
       id
       nome
       descricao
+      finalizado
       modulos{
         id
       }
+    }
+  }
+}
+`;
+
+export const FINALIZAR_CURSO = gql`
+mutation FinalizarCurso(
+  $cursoId: Float!
+  $finalizado: Boolean
+){
+  atualizarCurso(options:{
+    cursoId: $cursoId
+    finalizado: $finalizado
+  }){
+    curso{
+      id
+      finalizado
     }
   }
 }

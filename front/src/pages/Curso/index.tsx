@@ -5,7 +5,7 @@ import { FiArrowDown, FiArrowUp, FiMinusCircle } from 'react-icons/fi';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { useToast } from '../../hooks/toast';
-import { VER_CURSO, DELETE_MODULO, VER_MODULO_POR_CURSO, DELETE_AULA, DELETE_MODULO_PERGUNTA, ATUALIZAR_ORDEM_AULA, ATUALIZAR_ORDEM_PERGUNTA } from './apolloQueries';
+import { VER_CURSO, FINALIZAR_CURSO, DELETE_MODULO, VER_MODULO_POR_CURSO, DELETE_AULA, DELETE_MODULO_PERGUNTA, ATUALIZAR_ORDEM_AULA, ATUALIZAR_ORDEM_PERGUNTA } from './apolloQueries';
 
 import CursoForm from '../../components/CursoForm';
 import AulaForm from '../../components/AulaForm';
@@ -15,6 +15,7 @@ import NavbarDesktop from '../../components/NavbarDesktop';
 import CursoPerguntaForm from '../../components/CursoPerguntaForm';
 import ModuleForm from '../../components/ModuleForm';
 import Popup from '../../components/Popup';
+import ToggleOnOff from '../../components/ToggleOnOff';
 
 import { Container, CursoContent, ListaModulos, Modulo, AulasContainer } from './styles';
 
@@ -91,6 +92,7 @@ export interface ICursoGQL {
       id: number;
       nome: string;
       descricao: string;
+      finalizado: boolean;
       modulos: IModuloData[];
     }
   }
@@ -110,19 +112,48 @@ const Curso: React.FC = () => {
   const [isPerguntaPopupVisible, setIsPerguntaPopupVisible] = useState(false);
   const [currentModuleId, setCurrentModuleId] = useState<number>(0);
 
-  const [curso, setCurso] = useState<ICursoData>();
   const [selectedAula, setSelectedAula] = useState<IAulasData>();
   const [selectedPergunta, setSelectedPergunta] = useState<IPerguntasData>();
   const [selectedModulo, setSelectedModulo] = useState<IManipulatedModuloData>();
   const [ManipulatedModulos, setManipulatedModulos] = useState<IManipulatedModuloData[]>();
   const [currentOrder, setCurrentOrder] = useState<number>(0);
+  const [finalizado, setFinalizado] = useState(false);
 
   const { addToast } = useToast();
 
   // CURSO
   const { data: cursoData } = useQuery<ICursoGQL>(VER_CURSO, {
-    variables: { id: Number(id) }
+    variables: { id: Number(id) },
+    onCompleted(data){
+      setFinalizado(data.verCurso.curso.finalizado);
+    }
   });
+
+  const [FinalizarCurso] = useMutation(FINALIZAR_CURSO, {
+    onCompleted(data) {
+      addToast({
+        title: "curso atualizado",
+        type: "success"
+      });
+
+      setFinalizado(data.atualizarCurso.curso.finalizado);
+    },
+    onError() {
+      addToast({
+        title: "erro ao atualizar",
+        type: "error"
+      });
+    }
+  });
+
+  const handleFinalizarCurso = (finalizado: boolean) => {
+    FinalizarCurso({
+      variables: {
+        cursoId: Number(id),
+        finalizado
+      }
+    });
+  };
 
   // MODULOS
   const { data: modulosData, refetch: moduleRefetch } = useQuery<IModulosPorCursoQuery>(VER_MODULO_POR_CURSO, {
@@ -374,7 +405,10 @@ const Curso: React.FC = () => {
     <Container>
       <TopMenu />
 
-      <CursoForm curso={cursoData} headingText="editar curso" />
+      <section>
+        <CursoForm curso={cursoData} headingText="editar curso" />
+        <ToggleOnOff isOn={finalizado} callback={() => handleFinalizarCurso(!finalizado)} label="curso finalizado?" />
+      </section>
 
       <CursoContent>
         <h2>módulos, aulas e perguntas</h2>
