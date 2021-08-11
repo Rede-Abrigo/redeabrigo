@@ -6,6 +6,7 @@ query VerCursos{
     id
     nome
     descricao
+    finalizado
     modulos{
       id
       nome
