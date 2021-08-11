@@ -4,7 +4,7 @@ import { AlternativeShadow } from '../../styles/AlternativeShadow';
 
 export const Container = styled.div`
   border-radius: 53px;
-  flex-direction: row;
+  flex-direction: row!important;
   align-items: flex-end;
   justify-content: center;
 
