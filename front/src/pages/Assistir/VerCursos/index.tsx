@@ -14,6 +14,7 @@ interface IVerCursos {
     id: string;
     nome: string;
     descricao: string;
+    finalizado: boolean;
   }[]
 }
 
@@ -26,7 +27,7 @@ const VerCursos: React.FC = () => {
 
       <CursoList>
         <h2>Lista de cursos</h2>
-        {cursosData && cursosData.verCursos.map(curso => (
+        {cursosData && cursosData.verCursos.map(curso => !curso.finalizado && (
           <Curso key={curso.id}>
             <Link to={`/detalhes/${curso.id}`}>
               <div>
