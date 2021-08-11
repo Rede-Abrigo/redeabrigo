@@ -154,6 +154,7 @@ const CursoDetails: React.FC = () => {
   const conteudoTotal = useMemo(() => {
     if (ManipulatedModulos) {
       const aulasPorModulo = ManipulatedModulos.map(modulo => modulo.content.filter(content => content.content_is === 'aula').length);
+      if(aulasPorModulo.length === 0) {return}
       return aulasPorModulo.reduce((accumulator, currentValue) => accumulator + currentValue);
     }
   }, [ManipulatedModulos]);
@@ -161,6 +162,8 @@ const CursoDetails: React.FC = () => {
   const duracaoTotal = useMemo(() => {
     if (ManipulatedModulos) {
       const allModules = ManipulatedModulos.map(modulo => modulo.content.filter(content => content.content_is === 'aula'));
+
+      if(allModules.length === 0){return}
 
       const eachModuleDuration = allModules.map(module =>
         module.reduce((accumulator, currentValue) => {
