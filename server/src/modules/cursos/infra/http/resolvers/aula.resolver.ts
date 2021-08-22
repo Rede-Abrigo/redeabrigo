@@ -10,6 +10,8 @@ import DeleteAulaService from '../../../services/DeleteAulaService';
 
 import { getCustomRepository } from "typeorm";
 import AulasRepository from "../../typeorm/repositories/AulasRepository";
+import { createWriteStream } from "fs";
+import path from 'path';
 
 // Preciso usar o DTO
 @InputType()
@@ -67,8 +69,17 @@ export class AulaResolver {
     @Mutation(() => ArquivoResponse)
     async UploadArquivoParaAula(
         @Arg("file", () => GraphQLUpload)
-        { filename, encoding, mimetype }: FileUpload
+        { createReadStream, filename, encoding, mimetype }: FileUpload
     ): Promise<ArquivoResponse> {
+
+        filename = new Date().toISOString() + filename;
+
+        await new Promise(response => createReadStream()
+            .pipe(createWriteStream(
+                path.join('/var/www/server/files/', filename)
+            ))
+            .on("close", response)
+        );
 
         return {
             filename: filename,
