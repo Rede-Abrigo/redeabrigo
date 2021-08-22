@@ -37,6 +37,10 @@ class Aula {
     @CreateDateColumn()
     createdAt: Date;
 
+    @Field(() => [String])
+    @Column('text', { array: true })
+    arquivos: string[];
+
     @Field(() => String)
     @UpdateDateColumn()
     updatedAt: Date;
