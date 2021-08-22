@@ -1,4 +1,5 @@
 import { Resolver, Query, Mutation, Field, ObjectType, Arg, InputType } from "type-graphql";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
 import { container } from "tsyringe";
 
 import Aula from '../../typeorm/entities/Aula';
@@ -51,8 +52,31 @@ class AulaResponse {
     aula?: Aula;
 }
 
+@ObjectType()
+class ArquivoResponse {
+    @Field()
+    filename: string;
+    @Field()
+    mimetype: string;
+    @Field()
+    encoding: string;
+}
+
 @Resolver()
 export class AulaResolver {
+    @Mutation(() => ArquivoResponse)
+    async UploadArquivoParaAula(
+        @Arg("file", () => GraphQLUpload)
+        { filename, encoding, mimetype }: FileUpload
+    ): Promise<ArquivoResponse> {
+
+        return {
+            filename: filename,
+            mimetype: encoding,
+            encoding: mimetype
+        };
+    }
+
     @Mutation(() => AulaResponse)
     async criarAula(
         @Arg("options") options: CriarAulaInput

@@ -5,7 +5,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import cors from 'cors';
-import AppError from '@shared/errors/AppError'
+import AppError from '@shared/errors/AppError';
+import {graphqlUploadExpress} from 'graphql-upload';
 
 import { errors } from 'celebrate';
 import '@shared/infra/typeorm';
@@ -33,6 +34,7 @@ import { ForumCategoriaResolver } from "@modules/forums/infra/http/resolvers/cat
   app.use(cors());
   app.use(express.json());
   app.use(errors());
+  app.use(graphqlUploadExpress({ maxFileSize: 10485760, maxFiles: 3 }));
 
   app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
     if (err instanceof AppError) {
@@ -68,6 +70,7 @@ import { ForumCategoriaResolver } from "@modules/forums/infra/http/resolvers/cat
   })
   
   const apolloServer = new ApolloServer({
+    uploads: false,
     schema: apolloServerSchema,
     context: ({ req, res }) => ({
       req,
