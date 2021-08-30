@@ -32,14 +32,14 @@ class Aula {
     @Field(() => Modulo, { nullable: true })
     @ManyToOne(() => Modulo, modulo => modulo.aulas, { nullable: true })
     modulo: Modulo;
-    
-    @Field(() => String)
-    @CreateDateColumn()
-    createdAt: Date;
 
     @Field(() => [String])
     @Column('text', { array: true })
     arquivos: string[];
+    
+    @Field(() => String)
+    @CreateDateColumn()
+    createdAt: Date;
 
     @Field(() => String)
     @UpdateDateColumn()

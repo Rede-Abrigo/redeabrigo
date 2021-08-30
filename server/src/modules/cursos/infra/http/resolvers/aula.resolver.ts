@@ -28,6 +28,8 @@ class CriarAulaInput {
     duracao: string;
     @Field({ nullable: true })
     moduloId: number;
+    @Field(() => [String])
+    arquivos: string[];
 }
 
 @InputType()
@@ -46,6 +48,8 @@ class AtualizarAulaInput {
     duracao?: string;
     @Field({ nullable: true })
     moduloId?: number;
+    @Field(() => [String])
+    arquivos?: string[];
 }
 
 @ObjectType()
@@ -74,12 +78,16 @@ export class AulaResolver {
 
         filename = new Date().toISOString() + filename;
 
-        await new Promise(response => createReadStream()
-            .pipe(createWriteStream(
-                path.join('/var/www/server/files/', filename)
-            ))
-            .on("close", response)
-        );
+        try {
+            await new Promise(response => createReadStream()
+                .pipe(createWriteStream(
+                    path.join('/var/www/server/files/', filename)
+                ))
+                .on("close", response)
+            );
+        } catch (error) {
+            console.error(error);
+        }
 
         return {
             filename: filename,
