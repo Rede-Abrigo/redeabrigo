@@ -22,6 +22,7 @@ import Pergunta from '../pages/Pergunta';
 import NovaPergunta from '../pages/NovaPergunta';
 import CursoPergunta from '../pages/Assistir/CursoPergunta';
 import Notification from '../pages/Notification';
+import Statistics from '../pages/Curso/Statistics'
 
 const Routes: React.FC = () => {
 
@@ -42,6 +43,7 @@ const Routes: React.FC = () => {
 
       <Route path="/cursos" component={Cursos} isPrivate />
       <Route path="/curso/:id" component={Curso} isPrivate />
+      <Route path="/curso-stats/:id" component={Statistics} isPrivate />
 
       <Route path="/assistir" component={VerCursos} isPrivate />
       <Route path="/detalhes/:id" component={CursoDetails} isPrivate />

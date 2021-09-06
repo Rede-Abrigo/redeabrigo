@@ -31,6 +31,7 @@ const NavbarDesktop: React.FC = () => {
 
             <label>editar cursos</label>
             <Link to="/cursos/todos">ver todos</Link>
+            <Link to="/cursos/estatisticas">ver inscritos</Link>
             <Link to="/cursos/novo">criar novo</Link>
 
             <label>notificações</label>

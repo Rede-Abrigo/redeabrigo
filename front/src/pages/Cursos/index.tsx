@@ -44,25 +44,29 @@ const Cursos: React.FC = () => {
       />
 
       {location.pathname === '/cursos/estatisticas' && (
-        <Estatisticas>
-          <h2>estatísticas</h2>
-          <Content>
-            <div>
-              <h3>Total</h3>
-              <p>153 usuários cadastrados</p>
-            </div>
+        <>
+          {/* <Search searchTitle="cursos cadastrados" loadList={loadCursos} /> */}
+          <CursoList>
 
-            <div>
-              <h3>Região</h3>
-              <p>Rio de Janeiro possúi mais profissionais cadastrados</p>
-            </div>
+            {cursosData && cursosData.verCursos.map(curso => (
+              <Curso key={curso.id}>
+                <Link to={`/curso-stats/${curso.id}`}>
+                  <div>
+                    <h3>{curso.nome}</h3>
+                    <strong>{curso.descricao.substring(0, 100)}...</strong>
+                  </div>
+                </Link>
+              </Curso>
+            ))}
 
-            <div>
-              <h3>Enviou mais notificações</h3>
-              <p>Ricardo Daniel</p>
-            </div>
-          </Content>
-        </Estatisticas>
+          {cursosData && cursosData.verCursos.length === 0 && (
+            <NoCurso>
+              Nenhum curso foi encontrado.
+            </NoCurso>
+          )}
+
+          </CursoList>
+        </>
       )}
 
       {location.pathname === '/cursos/todos' && (

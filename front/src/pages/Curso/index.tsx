@@ -16,6 +16,7 @@ import CursoPerguntaForm from '../../components/CursoPerguntaForm';
 import ModuleForm from '../../components/ModuleForm';
 import Popup from '../../components/Popup';
 import ToggleOnOff from '../../components/ToggleOnOff';
+import Statistics from './Statistics';
 
 import { Container, CursoContent, ListaModulos, Modulo, AulasContainer } from './styles';
 
@@ -408,6 +409,7 @@ const Curso: React.FC = () => {
       <section>
         <CursoForm curso={cursoData} headingText="editar curso" />
         <ToggleOnOff isOn={finalizado} callback={() => handleFinalizarCurso(!finalizado)} label="curso finalizado?" />
+        <Statistics />
       </section>
 
       <CursoContent>
